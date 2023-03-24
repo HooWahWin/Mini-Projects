@@ -1,0 +1,41 @@
+from sympy import sympify, symbols
+import math
+
+x = symbols("x")
+
+# newton's method is: f_n+1 = f_n-f(x_n)/f'(x_n)
+# have to use the limit definition of derivatives
+
+
+def format_function(raw_function):
+    formatted_function = raw_function.replace("^", "**")
+    for char in range(len(raw_function) - 1):
+        if raw_function[char].isnumeric():
+            if raw_function[char + 1].isalpha():
+                formatted_function = formatted_function[:char + 1] + \
+                    "*" + formatted_function[char + 1:]
+    formatted_function = sympify(formatted_function)
+    return formatted_function
+
+
+def eval_at_derivative(function, x1):
+    h = 0.00000001
+    x2 = x1 + h
+    d_value = (function.subs(x, x2) - function.subs(x, x2)) / h
+    # limit definition of derivative
+
+    return d_value
+
+
+def main():
+
+    raw_function = input("Enter a function to approximate the roots: ")
+    formatted_function = format_function(raw_function)
+    x_1 = (input("Inital guess: "))
+    x_1 = int(x_1)
+    result = formatted_function.subs(x, x_1)
+
+    print(result)
+
+
+main()
